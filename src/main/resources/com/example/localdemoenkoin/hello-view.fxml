@@ -8,10 +8,10 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-   <Button id="button1" mnemonicParsing="false" onAction="#btnHi" prefHeight="9.0" prefWidth="81.0" text="%button1.text" />
-   <Button id="button3" mnemonicParsing="false" onAction="#btnTerv" prefHeight="12.0" prefWidth="68.0" text="%button3.text" />
 
-    <Label fx:id="welcomeText" />
-    <Button onAction="#onHelloButtonClick" text="Internationalization" />
-   <Button id="button2" mnemonicParsing="false" onAction="#btnVel" prefHeight="21.0" prefWidth="63.0" text="%button2.text" />
+    <Label fx:id="welcomeText" text="Welcome!" />
+    <Button fx:id="button1" text="English" onAction="#btnHiEn"/>
+    <Button fx:id="button2" text="Finnish" onAction="#btnMoiFi"/>
+    <Button fx:id="button3" text="Swedish" onAction="#btnHeiSE"/>
+
 </VBox>

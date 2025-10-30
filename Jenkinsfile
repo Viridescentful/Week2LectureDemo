@@ -54,9 +54,9 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'mvn clean package -DskipTests'
+                        sh 'mvn clean package'
                     } else {
-                        bat 'mvn clean package -DskipTests'
+                        bat 'mvn clean package'
                     }
                 }
             }

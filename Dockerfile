@@ -1,5 +1,5 @@
 FROM maven:latest
-LABEL authors="Veikko, Ilkka, Daniel"
+LABEL authors="Veikko"
 
 WORKDIR /app
 

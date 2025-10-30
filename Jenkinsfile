@@ -20,7 +20,7 @@ pipeline {
         stage('checking') {
             steps {
                 echo 'Building...'
-                git branch:'main', url:'https://github.com/Viridescentful/Week2LectureDemo.git'
+                git branch:'master', url:'https://github.com/Viridescentful/Week2LectureDemo.git'
             }
         }
 

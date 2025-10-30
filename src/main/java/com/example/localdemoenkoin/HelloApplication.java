@@ -19,7 +19,6 @@ public class HelloApplication extends Application {
         loader.setResources(ResourceBundle.getBundle("bundle1"));
         Parent root = loader.load();
         //Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Internationalization!");
         stage.setScene(new Scene (root));
         stage.show();
     }

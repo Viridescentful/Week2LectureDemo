@@ -7,10 +7,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
+import java.text.DecimalFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.ZoneId;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class HelloController {
@@ -31,6 +34,8 @@ public class HelloController {
     @FXML private Text weighttext;
 
     private ResourceBundle resourceBundle;
+    private Map localizedStrings;
+    private Locale locale;
 
     @FXML
     public void initialize() {
@@ -44,23 +49,24 @@ public class HelloController {
     }
 
     private void loadLanguage(String langCode, String country) {
-        Locale locale = new Locale(langCode, country);
+        locale = new Locale(langCode, country);
         resourceBundle = ResourceBundle.getBundle("com.example.localdemoenkoin.bundle1", locale);
 
+        localizedStrings = LocalizationService.getLocalizedStrings(locale);
+        resultfield.setText(localizedStrings.getOrDefault("invalid", "Invalid input") + "");
+
         if (button1 != null && button2 != null && button3 != null && button4 != null) {
-            button1.setText(resourceBundle.getString("button1.text"));
-            button2.setText(resourceBundle.getString("button2.text"));
-            button3.setText(resourceBundle.getString("button3.text"));
-            button4.setText(resourceBundle.getString("button4.text"));
-            button5.setText(resourceBundle.getString("button5.text"));
+            button1.setText((String) localizedStrings.getOrDefault("button1", "English"));
+            button2.setText((String) localizedStrings.getOrDefault("button2", "Finnish"));
+            button3.setText((String) localizedStrings.getOrDefault("button3", "Swedish"));
+            button4.setText((String) localizedStrings.getOrDefault("button4", "Persian"));
+            button5.setText((String) localizedStrings.getOrDefault("button5", "French"));
 
-            calculatebutton.setText(resourceBundle.getString("calculatebutton.text"));
-            heighttext.setText(resourceBundle.getString("heighttext.text"));
-            weighttext.setText(resourceBundle.getString("weighttext.text"));
+            calculatebutton.setText((String) localizedStrings.getOrDefault("calculatebutton", "Calculate BMI"));
+            heighttext.setText((String) localizedStrings.getOrDefault("heighttext", "Height (m):"));
+            weighttext.setText((String) localizedStrings.getOrDefault("weighttext", "Weight (kg):"));
 
-            resultfield.setText(resourceBundle.getString("resultfield.text"));
-
-
+            resultfield.setText((String) localizedStrings.getOrDefault("result", "Your BMI is"));
 
             if (langCode.equals("fa")) {
                resultfield.setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
@@ -100,10 +106,25 @@ public class HelloController {
 
     @FXML
     protected void onCalculate() {
+        /*
         double height = Double.parseDouble(heightfield.getText());
         double weight = Double.parseDouble(weightfield.getText());
         double bmi = BMICalculator.calculateBMI(weight, height);
 
+
         resultfield.setText(resourceBundle.getString("resultfield.text") + " " + String.valueOf(bmi));
+        */
+        try {
+            double weight = Double.parseDouble(weightfield.getText());
+            double height = Double.parseDouble(heightfield.getText());
+            double bmi = weight / (height * height);
+            DecimalFormat df = new DecimalFormat("#0.00");
+            resultfield.setText(localizedStrings.getOrDefault("result", "Your BMI is") + " " + df.format(bmi));
+
+            String language = locale.getLanguage(); // or store current locale
+            BMIResultService.saveResult(weight, height, bmi, language);
+        } catch (NumberFormatException e) {
+            resultfield.setText(localizedStrings.getOrDefault("invalid", "Invalid input") + "");
+        }
     }
 }
